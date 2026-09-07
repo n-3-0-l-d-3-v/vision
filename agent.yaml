@@ -1,0 +1,33 @@
+name: Vision
+role: creative-and-ideation
+default_sensitivity_tier: work
+entrypoint: vision
+health_check_command: vision --health
+vault_write_path: vault/Vision/
+sandboxed: false
+
+# --- notes for the ecosystem -------------------------------------------
+#
+# `default_sensitivity_tier: work` (not `private`, unlike Jarvis/Ultron/
+# Wall-E) because most of Vision's job is public creative projects -- per
+# 10x/docs/agents/vision.md and 10x/docs/omniroute-privacy-spec.md, `work`
+# is the right default for "generic ... project work" that isn't identity-
+# linked or financial/health data. Anything not ready to share (unreleased
+# music, draft designs) is a *per-project* override, not a global one: see
+# `vision new --private`, which sets that one project's `project.md`
+# frontmatter `sensitivity_tier: private` and routes its vault MOC note to
+# `vault/Vision/private/` instead of `vault/Vision/` -- matching the
+# ecosystem-wide `vault/private/` vs `vault/public/` split documented in
+# the privacy spec, scoped down to Vision's own vault subtree.
+#
+# `vision --health` (this file's health_check_command) is a top-level
+# eager flag, matching the pattern Friday, Ultron, Jarvis, and Wall-E all
+# use (see their own agent.yaml files and READMEs) -- checked here by
+# `tests/test_agent_yaml.py` and `tests/test_cli.py`.
+#
+# v1 scope is deliberately narrow: creative-project scaffolding, Excalidraw
+# starter-file generation, and asset-manifest cataloging -- all genuinely
+# useful with zero external creative-app dependencies. Real DAW/Krita/GIMP/
+# Blender/video-editor automation, UI/UX critique (needs a real model
+# call), and portfolio-site generation (Phase 7) are explicitly deferred --
+# see README.md "Explicitly out of scope for v1".

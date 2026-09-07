@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vision-agent"
+version = "0.1.0"
+description = "Creative and ideation agent: project scaffolding, Excalidraw starter files, asset manifests, and vault MOC integration."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+
+# Deliberately tiny dependency surface: v1 makes zero external creative-app
+# or network calls (see README.md "Explicitly out of scope for v1"), so
+# only click (CLI) is needed. No PyYAML -- frontmatter is hand-rolled
+# (see vision/frontmatter.py) since project.md/MOC frontmatter is always a
+# flat string-keyed block, not general YAML.
+dependencies = [
+    "click>=8.1.0",
+]
+
+[project.optional-dependencies]
+# pyyaml is dev-only: it's used by tests/test_agent_yaml.py to parse
+# agent.yaml, not imported by any runtime code (see vision/frontmatter.py
+# for why the runtime frontmatter reader is hand-rolled instead).
+dev = ["pytest>=7", "pyyaml>=6.0"]
+
+[project.scripts]
+vision = "vision.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["vision*"]
+
+[tool.setuptools.package-data]
+vision = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
