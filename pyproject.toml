@@ -17,6 +17,7 @@ license = { text = "Apache-2.0" }
 # flat string-keyed block, not general YAML.
 dependencies = [
     "click>=8.1.0",
+    "mcp>=2.0.0",
 ]
 
 [project.optional-dependencies]
