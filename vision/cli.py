@@ -35,6 +35,10 @@ def _print_json(data: dict) -> None:
 def _vault_root() -> Path:
     """Vision's own vault root: `<repo>/vault/Vision/`, matching
     agent.yaml's `vault_write_path`."""
+    import os
+    shared = os.environ.get("VAULT_PATH")
+    if shared:
+        return Path(shared) / "agents" / "Vision"
     return Path(__file__).resolve().parents[1] / "vault" / "Vision"
 
 
