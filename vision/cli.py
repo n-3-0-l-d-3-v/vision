@@ -198,6 +198,30 @@ def assets_cmd(project_dir: str, fmt: str, no_write: bool) -> None:
             click.echo(f"\nWritten to: {written_path}")
 
 
+
+@cli.command(name="open")
+@click.argument("name")
+@click.option("--app", default=None, help="Force an app (ardour, audacity, inkscape, krita, obs, obsidian, godot).")
+@click.option("--dry-run", is_flag=True, help="Show what would launch without launching.")
+def open_cmd(name: str, app: Optional[str], dry_run: bool) -> None:
+    """Open a project in the right installed creative app (or its folder)."""
+    from vision import launcher
+
+    match = next((p for p in list_projects() if p["name"] == name), None)
+    if match is None:
+        click.echo(f"Error: no project named {name!r} (see `vision list`).", err=True)
+        sys.exit(1)
+    ptype = str(match.get("type", ""))
+    try:
+        key, exe = launcher.resolve(ptype, app)
+    except ValueError as exc:
+        click.echo(f"Error: {exc}", err=True)
+        sys.exit(1)
+    if dry_run:
+        click.echo(f"{name} ({ptype}) -> {key or 'folder'} {exe or ''}".strip())
+        return
+    click.echo(launcher.open_project(Path(match["path"]), ptype, app))
+
 @cli.command(name="list")
 @click.option(
     "--root",
