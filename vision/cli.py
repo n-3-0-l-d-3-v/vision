@@ -201,7 +201,7 @@ def assets_cmd(project_dir: str, fmt: str, no_write: bool) -> None:
 
 @cli.command(name="open")
 @click.argument("name")
-@click.option("--app", default=None, help="Force an app (ardour, audacity, inkscape, krita, obs, obsidian, godot).")
+@click.option("--app", default=None, help="Force an app (ardour, audacity, inkscape, krita, blender, obs, obsidian, godot).")
 @click.option("--dry-run", is_flag=True, help="Show what would launch without launching.")
 def open_cmd(name: str, app: Optional[str], dry_run: bool) -> None:
     """Open a project in the right installed creative app (or its folder)."""

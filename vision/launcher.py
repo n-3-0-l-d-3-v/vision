@@ -14,11 +14,11 @@ from typing import Optional
 # project type -> ordered app keys to try
 TYPE_APPS = {
     "music": ["ardour", "audacity"],
-    "design": ["inkscape", "krita"],
-    "video": ["obs"],
+    "design": ["inkscape", "krita", "blender"],
+    "video": ["obs", "blender"],
     "photo": ["krita", "inkscape"],
     "writing": ["obsidian"],
-    "game": ["godot"],
+    "game": ["godot", "blender"],
 }
 
 # app key -> (executable names for PATH lookup, glob patterns for common install dirs)
@@ -26,7 +26,8 @@ APPS = {
     "ardour": (["ardour8", "ardour"], ["C:/Program Files/Ardour*/bin/Ardour*.exe"]),
     "audacity": (["audacity"], ["C:/Program Files/Audacity/Audacity.exe"]),
     "inkscape": (["inkscape"], ["C:/Program Files/Inkscape/bin/inkscape.exe"]),
-    "krita": (["krita"], ["C:/Program Files/Krita*/bin/krita.exe"]),
+    "krita": (["krita"], ["C:/Program Files/Krita*/bin/krita.exe", "~/tools/krita*/bin/krita.exe", "~/tools/krita*/*/bin/krita.exe"]),
+    "blender": (["blender"], ["C:/Program Files/Blender Foundation/Blender*/blender.exe", "~/tools/blender*/blender.exe"]),
     "obs": (["obs64", "obs"], ["C:/Program Files/obs-studio/bin/64bit/obs64.exe"]),
     "obsidian": (["obsidian"], ["~/AppData/Local/Programs/Obsidian/Obsidian.exe"]),
     "godot": (["godot"], ["~/AppData/Local/Microsoft/WinGet/Packages/GodotEngine*/Godot*.exe"]),
