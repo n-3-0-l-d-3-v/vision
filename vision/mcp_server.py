@@ -61,6 +61,17 @@ def list_projects() -> str:
     return json.dumps(_list_projects(), indent=2, default=str)
 
 
+@server.tool(description="Draw an Excalidraw diagram from text. 'A -> B: label, B -> C' is parsed offline; plain English is turned into boxes/arrows by the local model. project_dir optional (writes to <project_dir>/assets/).")
+def diagram(description: str, name: str = "diagram", project_dir: str = "") -> str:
+    from vision import diagram as d
+
+    target = Path(project_dir) / "assets" / name if project_dir.strip() else Path.cwd() / name
+    try:
+        return f"Created: {d.write_diagram(target, d.graph_from_input(description))}"
+    except d.DiagramError as exc:
+        return f"Error: {exc}"
+
+
 def main() -> None:
     server.run(transport="stdio")
 

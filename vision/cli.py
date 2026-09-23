@@ -222,7 +222,23 @@ def open_cmd(name: str, app: Optional[str], dry_run: bool) -> None:
         return
     click.echo(launcher.open_project(Path(match["path"]), ptype, app))
 
-@cli.command(name="list")
+@cli.command(name="diagram")
+@click.argument("description")
+@click.option("--name", default="diagram", show_default=True, help="Output file name.")
+@click.option("--project", "project_dir_raw", default=None, help="Write into <project>/assets/ instead of the current directory.")
+def diagram_cmd(description: str, name: str, project_dir_raw: Optional[str]) -> None:
+    """Text -> Excalidraw diagram. 'A -> B: label, B -> C' works offline; plain English uses the local model."""
+    from vision import diagram
+
+    target = (Path(project_dir_raw) / "assets" / name) if project_dir_raw else (Path.cwd() / name)
+    try:
+        path = diagram.write_diagram(target, diagram.graph_from_input(description))
+    except diagram.DiagramError as exc:
+        click.echo(f"Error: {exc}", err=True)
+        sys.exit(1)
+    click.echo(f"Created: {path}")
+
+
 @click.option(
     "--root",
     "root_raw",
