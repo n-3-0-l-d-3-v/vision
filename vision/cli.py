@@ -239,6 +239,7 @@ def diagram_cmd(description: str, name: str, project_dir_raw: Optional[str]) -> 
     click.echo(f"Created: {path}")
 
 
+@cli.command(name="list")
 @click.option(
     "--root",
     "root_raw",
